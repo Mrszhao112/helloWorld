@@ -1,0 +1,12 @@
+#include<stdio.h>
+#include<stdlib.h>
+void firstStep()
+{
+printf("开始git之旅\n");
+printf("让git绿下去\n");
+}
+int mian()
+{
+firstStep();
+return 0;
+}
