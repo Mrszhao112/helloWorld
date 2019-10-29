@@ -1,0 +1,171 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+
+//宏定义 便于修改
+#define  maxRow 3
+#define  maxCol 3
+//定义一个全局变量
+char chessBoard[maxRow][maxCol];
+
+void Init()
+{
+	for (int row=0;row<maxRow;row++)
+	{
+		for (int col=0;col<maxCol;col++)
+		{
+    //将空格作为初始化条件
+			chessBoard[row][col] = ' ';  
+		}
+	}
+}
+//初始化一个棋盘
+void printChess()
+{
+	printf("----+---+----\n");
+	for (int row=0;row<maxRow;row++)
+	{
+		printf("| %c | %c | %c |\n", chessBoard[row][0],chessBoard[row][1],chessBoard[row][2]);
+		printf("----+---+----\n");
+	}
+}
+//游戏具体执行
+void playMove()
+{
+	
+	printf("玩家落子\n");
+	while(1)
+	{printf("please input");
+	int row;
+	int col;
+	scanf("%d %d", &row, &col);
+
+	//非法判定
+	if (row<0 || row>maxRow || col<0 || col>maxCol)
+	{//满足情况就需要玩家重新落子
+		printf("输入有误 请重新输入\n");
+		continue;
+	}
+	if (chessBoard[row][col]!=' ')
+	{
+		printf("输入有误 请重新输入\n");
+		continue;
+	}
+	//落子 修改
+	chessBoard[row][col] = 'X';
+	break;
+	} 
+}
+void computerMove()
+{
+//电脑 随机落子
+	printf("电脑落子\n");
+	while (1)
+	{
+		int row = rand() % maxRow;
+		int col = rand() % maxCol;
+		if (chessBoard[row][col]!=' ')
+		{
+    //该位置有子了
+			continue;
+		}
+		chessBoard[row][col] = 'O';
+		break;
+	}
+}
+//和棋  遍历找空格  满了返回1
+int isFull()
+{
+	for (int row = 0; row < maxRow; row++)
+	{
+		for (int col = 0; col < maxCol; col++)
+		{
+			//不能使用！= 因为无法判断是否下满棋盘！
+			if (chessBoard[row][col] == ' ')
+			{
+				return 0;
+			}
+		}
+	}
+	return 1;
+}
+//'x'玩家‘o’电脑 ‘ ’胜负未分 
+char win()
+{
+	int isFull();
+	//检测所有行
+	for (int row=0;row<maxRow;row++)
+	{
+		if (chessBoard[row][0] != ' '&&chessBoard[row][0] == chessBoard[row][1] && chessBoard[row][0] == chessBoard[row][2])
+		{
+			return chessBoard[row][0];
+		}
+	}
+	//检测所有列
+	for (int col = 0; col < maxRow; col++)
+	{
+		if (chessBoard[0][col] != ' '&&chessBoard[0][col] == chessBoard[1][col] && chessBoard[0][col] == chessBoard[0][col])
+		{
+			return chessBoard[0][col];
+		}
+	}
+	//检测两个对角线
+		if (chessBoard[0][0] != ' '&&chessBoard[0][0] == chessBoard[1][1] && chessBoard[0][0] == chessBoard[2][2])
+		{
+			return chessBoard[0][0];
+		}
+		if (chessBoard[0][2] != ' '&&chessBoard[0][2] == chessBoard[1][1] && chessBoard[0][2] == chessBoard[2][0])
+		{
+			return chessBoard[0][2];
+		}
+		//是否和棋
+			if (isFull() == 1)
+			{
+				return 'q';
+			}
+		return ' ';
+}
+int main()
+{
+	char winner;
+	//创建棋盘
+	Init();
+	while (1)
+	{
+		//打印棋盘
+		printChess();
+		//玩家落子
+		playMove();
+		//判定胜负
+		winner=win();
+		if (winner!=' ')
+		{
+			break;
+		}
+		//电脑落子
+		computerMove();
+		//判断胜负
+		winner = win();
+		if (winner != ' ')
+		{
+			break;
+		}
+	}
+	printChess();
+	//循环上述
+	//判断谁胜利
+	if (winner=='X')
+	{
+		printf("you win\n");
+	}
+	else if (winner=='O')
+	{
+		printf(" you defeated\n");
+	}
+	else
+	{
+		printf("peace\n");
+	}
+	system("pause");
+	return 0;
+}
