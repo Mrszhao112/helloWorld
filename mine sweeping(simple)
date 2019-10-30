@@ -1,0 +1,140 @@
+#define _crt_secure_no_warnings
+#include<stdio.h>
+#include<stdlib.h>
+#include <time.h>
+#define maxcol 9
+#define maxrow 9
+#define maxminecount 10
+//打印两个扫雷的地图 功能不同
+
+//展示给玩家的
+char showmap[maxrow][maxcol];
+//存放地雷位置的
+char minemap[maxrow][maxcol];
+
+void init()
+{
+	//showmap全部为*；
+	for (int row=0;row<maxrow;row++)
+	{
+		for (int col=0;col<maxcol;col++)
+		{
+			showmap[row][col] = '*';
+			printf("%c ", showmap[row][col]);
+		}
+	}
+	//mimemap初始化
+	//先填满为0 后随机产生填成1
+	for (int row = 0; row < maxrow; row++)
+	{
+		for (int col = 0; col < maxcol; col++)
+		{
+			minemap[row][col] = '0';
+		}
+	}
+	srand((unsigned int)time(0));
+	int minecount = 0;
+	while (1)
+	{
+		//产生一组随机数
+		int row = rand() % maxrow;
+		int col = rand() % maxcol;
+		if (minemap[row][col]=='1')
+		{
+			continue;
+		}
+		minemap[row][col] = '1';
+		minecount++;
+		//最多产生十个
+		//循环次数不止十次
+		if (minecount==maxminecount)
+		{
+			break;
+		}
+	}
+}
+//打印函数 两个地图 参数设定
+void printmap(char themap[maxrow][maxcol])
+{//遍历打印
+	for (int row=0;row<maxrow;row++)
+	{
+		for (int col=0;col<maxcol;col++)
+		{
+			printf("%c ", themap[row][col]);
+		}
+		printf("\n");
+	}
+}
+void updateshowmap(char minemap[maxrow][maxcol],char showmap[maxrow][maxcol],int row,int col)
+{
+	//根据位置判断周围八个格子有几个雷 有几个 设置数字为showmap对应格子
+	int count= 0;
+	for (int r=row-1;r<row+1;r++)
+	{
+		for (int c=col-1;c<col+1;c++)
+		{
+			//减少一次循环
+			if (r==row&&c==col)
+			{
+				continue;
+			}
+			//合法性校验  检验有效范围
+			if (r<0||r>maxrow||c<0||c>maxcol)
+			{
+				continue;
+			}
+			if (minemap[r][c] == '1')
+			{
+				count++;
+			}
+		}
+	}
+	//将count设置进showmap
+	showmap[row][col] = '0' + count;
+}
+int main()
+{
+	//流程如下
+	//初始化地图
+	void init();
+	int count = 0;
+	while (1)
+	{
+		//打印地图（showmap）
+		printmap(showmap);
+		//让玩家输入一组坐标并翻开当前位置的showmap  需要校验合法性
+		int col = 0;
+		int row = 0;
+		scanf("%d %d", &row, &col);
+		//校验
+		if (row<0||row>maxrow||col<0||col>maxcol)
+		{
+			printf("输入有误\n");
+			continue;
+		}
+		if (showmap[row][col]=='*')
+		{
+			printf("请重新输入\n");
+			continue;
+		}
+		//判断是否踩雷了
+		if (minemap[row][col]=='1')
+		{
+			printmap(minemap);
+			printf("gameover");
+			break;
+		}
+		//判断是否胜利 胜利的条件是翻开所有不是雷的格子
+		count++;
+		if (count==maxrow*maxcol-maxminecount)
+		{
+			printmap(minemap);
+			printf("you win");
+			break;
+		}
+		//根据位置更新周围雷的情况 更新showmap
+		updateshowmap(minemap, showmap, row, col);
+	}
+	system("pause");
+	return 0;
+}
