@@ -22,9 +22,55 @@ void hanoi(int n, char a, char b, char c)
 }
 int main()
 {
+//斐波那契额数列
+       int fab2(int n);
+	int a = 0;
+	a=fab2(6);
+	printf("%d", a);
+	
+	
+	
 	int n = 0;
 	scanf_s("%d", &n);
 	hanoi(n, 'a', 'b', 'c');
 	system("pause");
 	return 0;
+}
+
+
+//同样是递归经典问题 斐波那契额数列问题
+//斐波那契数列不同计算方法
+//1,1,2,3,5,8
+//递归法
+int fab1(int n)
+{
+	if (n==1||n==2)
+	{
+		return 1;
+	}
+	return fab1(n-1) + fab1(n-2);
+}
+//循环法
+int fab2(int n)
+{
+	int a;
+	int s;
+	int z;
+	a = 1;
+	s = 1;
+	for (int i=2;i<n;i++)
+	{
+	
+	if (n==2||n==1)
+	{
+		s = 1;
+	} 
+	else
+	{
+		z = a + s;//2
+		a = s;//1
+		s=z;//2
+	}
+	}
+	return s;
 }
