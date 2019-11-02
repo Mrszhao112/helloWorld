@@ -10,33 +10,50 @@
 //现在请根据这些信息，写一个程序来确定到底谁是凶手。
 #include<stdio.h>
 #include<stdlib.h>
-//初级算法
-// 1罪犯 0 好人
-//a-0  c-1  d-1  d-0
+//高级算法
 int main()
 {
-	for (int a = 0; a < 2; a++)
+	char killer;
+	for (killer = 'a'; killer <= 'd'; killer++)//巧妙地利用ascii 从a-d进行循环和比较
 	{
-		for (int b = 0; b < 2; b++)
+		//下面分别对应每个人都供词  不是a 是c     是d    不是d
+		if (((killer != 'a') + (killer == 'c') + (killer == 'd') + (killer != 'd')) == 3)  //这里等于3表示 有三个人说了真话
 		{
-			for (int c = 0; c < 2; c++)
-			{
-				for (int d = 0; d < 2; d++)
-				{
-					//凶手只存在一个
-					if ((a + b + c + d) == 1)
-					{
-						if (((a == 0) + (c == 1) + (d == 1) + (d == 0)) == 3)
-						{
-							printf("0为好人 1为杀手\n");
-							printf("a=%d b=%d c=%d d=%d\n", a, b, c, d);
-						}
-					}
-				}
-			}
+			printf("%c是凶手\n", killer);
+			break;
 		}
 	}
-
 	system("pause");
 	return 0;
 }
+
+//初级算法
+//// 1罪犯 0 好人
+////a-0  c-1  d-1  d-0
+//int main()
+//{
+//	for (int a = 0; a < 2; a++)
+//	{
+//		for (int b = 0; b < 2; b++)
+//		{
+//			for (int c = 0; c < 2; c++)
+//			{
+//				for (int d = 0; d < 2; d++)
+//				{
+//					//凶手只存在一个
+//					if ((a + b + c + d) == 1)
+//					{
+//						if (((a == 0) + (c == 1) + (d == 1) + (d == 0)) == 3)
+//						{
+//							printf("0为好人 1为杀手\n");
+//							printf("a=%d b=%d c=%d d=%d\n", a, b, c, d);
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+//
+//	system("pause");
+//	return 0;
+//}
