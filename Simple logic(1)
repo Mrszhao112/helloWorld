@@ -1,0 +1,42 @@
+#include<stdio.h>
+#include<stdlib.h>
+//日本某地发生了一件谋杀案，警察通过排查确定杀人凶手必为4个
+//嫌疑犯的一个。以下为4个嫌疑犯的供词。
+//a说：不是我。
+//b说：是c。
+//c说：是d。
+//d说：c在胡说
+//已知3个人说了真话，1个人说的是假话。
+//现在请根据这些信息，写一个程序来确定到底谁是凶手。
+#include<stdio.h>
+#include<stdlib.h>
+//初级算法
+// 1罪犯 0 好人
+//a-0  c-1  d-1  d-0
+int main()
+{
+	for (int a = 0; a < 2; a++)
+	{
+		for (int b = 0; b < 2; b++)
+		{
+			for (int c = 0; c < 2; c++)
+			{
+				for (int d = 0; d < 2; d++)
+				{
+					//凶手只存在一个
+					if ((a + b + c + d) == 1)
+					{
+						if (((a == 0) + (c == 1) + (d == 1) + (d == 0)) == 3)
+						{
+							printf("0为好人 1为杀手\n");
+							printf("a=%d b=%d c=%d d=%d\n", a, b, c, d);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	system("pause");
+	return 0;
+}
