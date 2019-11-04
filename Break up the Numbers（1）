@@ -1,0 +1,38 @@
+#include<stdio.h>
+#include<stdlib.h>
+//拆分数字  求整数的每一位并输出 两种方法  一种递归 一种指针
+void print(int n) {
+
+	if (n == 0) {//如果n==0直接退出
+		return;
+	}
+	if (n < 10) {//如果n<10打印他本身
+		printf("%d\n", n);
+	}
+	if (n > 10) {//如果n>10进入递归
+		print(n / 10);
+		printf("%d\t", n % 10);//递归完成后从后依次打印
+	}
+
+
+
+此方法使用指针 字符串 不用计算
+
+
+void print1(char* string)
+{
+	while (*string!='\0')
+	{
+		printf("%c\t", *string);
+		string++;
+	}	
+}
+
+int main() {
+	char c[] = { "3456" };
+	print1(c);
+	system("pause");
+	return 0;
+}
+
+
