@@ -1,0 +1,68 @@
+
+#include<stdio.h>
+#define N 5
+void xuanze(int a[])
+{
+    int i,j,max,min,t;
+    for(i=0;i<N/2;i++)
+    {   
+        max=i;
+        min=i;
+        for(j=i+1;j<N-i;j++)
+        {
+            if(a[max]<a[j])
+                max=j;
+            else if(a[min]>a[j])
+                min=j;
+        }
+        if(i!=max)
+        {
+            t=a[i];
+            a[i]=a[max];
+            a[max]=t;
+            if(min==i)
+            {
+                min=max;
+            }
+        }
+        if(N-1-i!=min)
+        {
+            t=a[N-1-i];
+            a[N-1-i]=a[min];
+            a[min]=t;
+        }
+    }
+    printf("选择排序结果:\n");
+    for(i=0;i<N;i++)
+        printf("%3d",a[i]);
+}
+void maopao(int a[])
+{
+    int i,j,t,change=1;
+    for(i=0;i<N&&change;i++)
+    {
+        change=0;
+        for(j=0;j<N-1-i;j++)
+            if(a[j]<a[j+1])
+            {
+                t=a[j];
+                a[j]=a[j+1];
+                a[j+1]=t;
+                change=1;
+            }
+    }
+    printf("冒泡排序结果:\n");
+    for(i=0;i<N;i++)
+        printf("%3d",a[i]);
+}
+void main()
+{
+    int a[N],i;
+    printf("请输入%d个整数:\n",N);
+    for(i=0;i<N;i++)        
+        scanf("%d",a+i);
+    xuanze(a);
+    printf("\n\n\n");
+    maopao(a);
+}
+
