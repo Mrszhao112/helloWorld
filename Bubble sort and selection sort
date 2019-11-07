@@ -50,6 +50,11 @@ void bubble(int a[])
                 a[j+1]=t;
                 change=1;
             }
+            if(change==1)  //冒泡排序的一个优化
+            {
+            break;
+            }
+
     }
     printf("冒泡排序结果:\n");
     for(i=0;i<N;i++)
