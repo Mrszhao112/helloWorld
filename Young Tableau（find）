@@ -1,0 +1,56 @@
+////杨氏矩阵
+//有一个二维数组.
+//数组的每行从左到右是递增的，每列从上到下是递增的.
+//在这样的数组中查找一个数字是否存在。
+//时间复杂度小于O(N);
+//数组：
+//1 2 3
+//2 3 4
+//3 4 5
+
+//思路
+//创建 3*3为例 只能从右上方 或者左下方进行查找  即 0 2或者2 0
+//目的  每次查找时方向唯一 
+//方法 0 2 为例 行++或者列--  直到查找结束  找到返回一个数没找到返回一个数
+//这种查找方法是不用将数组每个元素都进行便利的 因此是一种高效的算法
+//并且在今后的学习中可以将数组进行类似于杨氏矩阵这样的排序  会极大的优化一些特定算法
+#include<stdio.h>
+#include<stdlib.h>
+
+void toFind(int arr[][3],int row,int col,int ff,int* pr,int* pc)
+{
+	int newRow = row-3;
+	while (newRow<3&&col>=0)  //从左上方进行查找！
+	{
+		if (arr[newRow][col - 1]>ff)
+		{
+			col--;
+		}
+		if (arr[newRow][col-1]<ff)
+		{
+			newRow++;
+		}
+		if (arr[newRow][col - 1] == ff)
+		{
+			
+			pr = &newRow;
+			pc = &col;
+			printf("%d%d\n",*pr,*pc-1);//返回元素所在地址
+			return;
+		}
+
+	}
+	printf("%d\n",0);
+}
+int main()
+{
+	int arr[3][3]={ {1,2,3},{4,5,6},{7,8,9}};
+	int col = 3;
+	int row = 3;
+	int ff = 10;
+	int* pc=NULL;
+	int* pr=NULL;
+	toFind(arr, row, col, ff,pr,pc);
+	system("pause");
+	return 0;
+}
