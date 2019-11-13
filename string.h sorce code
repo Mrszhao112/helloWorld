@@ -1,0 +1,87 @@
+//模拟实现 关于string.h头文件包含的函数源码
+1.实现strcpy
+char* myStrcpy(char* dest,const char* src)
+{
+	char* ret = dest;
+	assert(dest != NULL);
+	assert(src != NULL);
+	
+	while ((*dest++=*src++))
+	{
+		;
+	}
+	return ret;
+}
+2.实现strcat 粘贴函数
+char* myStrcat(char* dest,const char* src)
+{
+	char* ret = dest;
+	assert(dest != NULL);
+	assert(src != NULL);
+	while (*dest)
+	{
+		dest++;
+	}
+	/*while (*src)
+	{
+		dest = src;
+		dest++;
+		src++;
+	}*/
+	while ((*dest++=*src++))
+	{
+		;
+	}
+	return ret;
+}
+                  3.实现strstr有问题
+//判断是否为子串
+char* myStrstr(const char* str1,const char* str2)
+{
+	//断言
+	assert(str1 != NULL);
+	assert(str2 != NULL);
+	char* cp = (char*)str1;//将不可修改强转为可修改
+	char* substr = (char*)str2;
+	char* s1 = NULL;
+	if (str2=='\0')//此处与断言冲突
+	{
+		return NULL;
+	}
+	while (*cp)
+	{
+		s1 = cp;
+		substr = str2;
+		while (*s1&&*substr&&(*s1==*substr))
+		{
+			s1++;
+			substr++;
+		}
+		if (substr=='\0')
+			return cp;
+		cp++;
+	}
+	
+}
+
+5.实现strcmp
+比较字符串大小的函数
+int myStrcmp(const char* str1,const char* str2)
+{
+	int ret = 0; 
+	assert(str1 != NULL);    
+	assert(str2 != NULL);       
+	while (!(ret = *(unsigned char *)str1 - *(unsigned char *)str2) && *str2)//为什么结合了一个str2
+	{
+		++str1, ++str2;
+	}
+	if (ret < 0)
+	{
+		ret = -1;
+	}
+	else if (ret > 0)
+	{
+		ret = 1;
+	}
+	return(ret);
+}
