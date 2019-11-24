@@ -1,0 +1,258 @@
+//头文件代码
+#pragma once
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<stdlib.h>
+#include <string.h>
+//结构体的声明
+typedef struct PeoInfo //存放用户数据的结构体
+{
+	char name[20];
+	char sex[10];
+	int age;
+	char tele[20];
+	char address[20];
+	/*char *name;
+	char *sex;
+	int age;
+	char *tel;
+	char *address;*/
+}PeoInfo;
+//常用的一种定义方法  PenInfo 相当于stuct PenInfo
+
+typedef struct Contact //存放创立的结构体的结构体 
+{
+	PeoInfo* sizeIt;//静态建立结构体数组
+	int culCount;//当前个数
+	int capacity;//保存最大容量  
+}Contact, *pContact;
+//第一个是 起了一个别名  第二个是 直接定义了一个指针 指向结构体
+//对调用函数的声明
+//pContact pc  是自己创立的结构体的类型
+void initContact(pContact pc);//初始化
+void addContact(pContact pc);//增加联系人
+void deletContact(pContact pc);//删除联系人
+int findContact(pContact pc,char* name);//查找联系人是否存在
+void searchContact(pContact pc);//查找联系人信息
+void movContact(pContact pc);//修改联系人信息
+void showAllContact(pContact pc);//显示所有联系人
+void sortContact(pContact pc);//按照名字进行排序
+void resetContact(pContact pc);//销毁所有联系人
+void dilataionContact(pContact pc);//动态扩容
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//头文件函数实现区
+#define _CRT_SECURE_NO_WARNINGS 1
+#include "contacts.h"
+void initContact(pContact pc)//初始化
+{
+	pc->capacity = 1;
+	pc->sizeIt=(PeoInfo*)malloc(pc->capacity*sizeof(PeoInfo));
+	pc->culCount = 0;//count为当前个数
+}
+
+void addContact(pContact pc)//增加联系人
+{
+	if (pc->culCount == pc->capacity)
+	{
+		printf("存不下来啦 已经存满了\n");
+		printf("。。。。。。。。。。\n");
+		printf("扩容成功\n");
+		dilataionContact(pc);
+	}
+	printf("name\n");
+	scanf("%s", pc->sizeIt[pc->culCount].name);
+	printf("sex\n");
+	scanf("%s", pc->sizeIt[pc->culCount].sex);
+	printf("age\n");
+	scanf("%d", &(pc->sizeIt[pc->culCount].age));
+	printf("tele\n");
+	scanf("%s", pc->sizeIt[pc->culCount].tele);
+	printf("address\n");
+	scanf("%s", pc->sizeIt[pc->culCount].address);
+	(pc->culCount)++;
+}
+void deletContact(pContact pc)//删除联系人
+{
+	printf("输入姓名\n");
+	char name[20];                                     //此处的初始化听该如何初始化
+	scanf("%s", name);
+	int ret = findContact(pc, name);
+	if (ret = -1)
+	{
+		printf("不存在\n");
+	}
+	else
+	{
+		for (int i = ret; i < pc->culCount; i++)                  
+		{
+			pc->sizeIt[i] = pc->sizeIt[i + 1];                //此处是否越界
+
+		}
+		pc->culCount--;
+		printf("删除成功");
+	}
+}
+int findContact(pContact pc, char* name)//查找联系人是否存在
+{
+	for (int i=0;i<pc->culCount;i++)
+	{
+		if (strcmp(pc->sizeIt[i].name,name)==0)
+		{
+			printf("这是%d个元素\n", i);
+			return i;//存在直接返回下标
+		}
+	}
+	return -1;
+}
+void movContact(pContact pc)//修改联系人信息
+{
+	printf("输入姓名\n");
+	char name[20];
+	scanf("%s", name);
+	int ret=findContact(pc, name);
+	if (ret==-1)
+	{
+		printf("不存在哦\n");
+	}
+	else
+	{
+		printf("请输入修改内容\n");
+		printf("name\n");
+		scanf("%s", pc->sizeIt[pc->culCount].name);
+		printf("sex\n");
+		scanf("%s", pc->sizeIt[pc->culCount].sex);
+		printf("age\n");
+		scanf("%d", &(pc->sizeIt[pc->culCount].age));
+		printf("tele\n");
+		scanf("%s", pc->sizeIt[pc->culCount].tele);
+		printf("address\n");
+		scanf("%s", pc->sizeIt[pc->culCount].address);
+		printf("修改成功\n");
+	}
+}
+void showAllContact(pContact pc)//显示所有联系人
+{
+
+	for (int i=0;i<pc->culCount;i++)
+	{
+		printf("%s\t",pc->sizeIt[i].name);
+		printf("%s\t", pc->sizeIt[i].sex);
+		printf("%d\t", pc->sizeIt[i].age);
+		printf("%s\t", pc->sizeIt[i].tele);
+		printf("%s\t", pc->sizeIt[i].address);
+		printf("\n");
+	}
+	printf("输出完毕\n");
+}
+void sortContact(pContact pc)//按照名字进行排序
+{//由大到小
+	for (int i=0;i<pc->culCount;i++)
+	{
+		for (int j=i;j<pc->culCount-1;j++)
+		{
+			if (strcmp(pc->sizeIt[j].name,pc->sizeIt[j+1].name)==-1)
+			{
+				//交换
+				PeoInfo tme = pc->sizeIt[j];
+				pc->sizeIt[j] = pc->sizeIt[j + 1];
+				pc->sizeIt[j + 1] = tme;
+			}
+		}
+	}
+	printf("排序成功\n");
+}
+void resetContact(pContact pc)//销毁所有联系人
+{
+	pc->culCount = 0;         //静态销毁
+}
+void searchContact(pContact pc)
+{
+	printf("请输入姓名\n");
+	char name[20];
+	scanf("%s", name);
+	int ret=findContact(pc, name);
+	if (ret==-1)
+	{
+		printf("no one\n");
+	}
+	else
+	{
+		printf("%s\n",pc->sizeIt->name);
+		printf("%s\n", pc->sizeIt->sex);
+		printf("%d\n", pc->sizeIt->age);
+		printf("%s\n", pc->sizeIt->tele);
+		printf("%s\n", pc->sizeIt->address);
+	}
+}
+void dilataionContact(pContact pc)
+{
+	if (pc->culCount==pc->capacity)
+	{
+		pc->sizeIt = (PeoInfo*)realloc(pc->sizeIt, 2 * pc->capacity);
+		pc->capacity = 2 * pc->capacity;
+		printf("当前容量为%d\n",pc->capacity);
+	}
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+//主函数实现入口
+#define _CRT_SECURE_NO_WARNINGS 1
+#include"contacts.h"
+enum menuIt
+{//0-7  七个加1  8
+	ADD=0,
+	DELET,
+	SEARCH,
+	MOV,
+	SHOW,
+	SORT,
+	RESET,
+	EXIT,
+}myMenuIt;
+void menu()
+{
+	printf("6666666666666666请输入操作6666666666666666666666\n");
+	printf("666666666666666666666666666666666666666666666666\n");
+	printf("0 ADD,1 DELET,2 FIND,3 MOV,4 SHOW,5 SORT,6 RESET,7 EXIT\n");
+	printf("666666666666666666666666666666666666666666666666\n");
+	printf("请输入您的操作6666666666666666666666666666666666\n");
+}
+int main()//主函数进行函数调用操作
+{
+	Contact allIt;//创建空间
+	initContact(&allIt);
+	int opNum;//操作数定义
+	while (1)
+	{
+		menu();
+		scanf("%d", &opNum);
+		switch (opNum)
+		{
+		case ADD:addContact(&allIt);
+			break;
+		case DELET:deletContact(&allIt);
+			break;
+		case SEARCH:
+			searchContact(&allIt);
+			break;
+		case MOV:movContact(&allIt);
+			break;
+		case SHOW:showAllContact(&allIt);
+			break;
+		case SORT:sortContact(&allIt);
+			break;
+		case RESET:resetContact(&allIt);
+			break;
+		case EXIT: return 0;
+			break;
+		default:printf("输入有误\n");
+			break;
+		}
+	}
+
+	system("pause");
+	return 0;
+}
