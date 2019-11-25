@@ -256,3 +256,83 @@ int main()//主函数进行函数调用操作
 	system("pause");
 	return 0;
 }
+
+
+
+//////////////////////////////////////////
+//优化  由于swich 语句过于冗余 我将其替换成了函数指针拉进行函数的调用
+//代码如下 使用函数指针使代码更加简洁
+#define _CRT_SECURE_NO_WARNINGS 1
+#include"contacts.h"
+enum menuIt
+{
+	ADD = 0,
+	DELET,
+	SEARCH,
+	MOV,
+	SHOW,
+	SORT,
+	RESET,
+	EXIT,
+};
+void menu()
+{
+	printf("6666666666666666请输入操作6666666666666666666666\n");
+	printf("666666666666666666666666666666666666666666666666\n");
+	printf("0 ADD,1 DELET,2 FIND,3 MOV,4 SHOW,5 SORT,6 RESET,7 EXIT\n");
+	printf("666666666666666666666666666666666666666666666666\n");
+	printf("请输入您的操作6666666666666666666666666666666666\n");
+}//菜单输出
+
+
+
+typedef void(*functionS)(pContact);//此处声明一个函数指针类型
+
+typedef struct simpleit            //定义了一个结构体类型  成员含有函数指针类型
+{
+	int a;                         
+	functionS b;                   //函数指针
+}simpleit;
+simpleit fun[10];                  //结构体数组存放指针函数
+int main()                      
+{
+	fun[0].a = ADD;
+	fun[1].a = DELET;
+	fun[2].a = SEARCH;
+	fun[3].a = MOV;
+	fun[4].a = SHOW;
+	fun[5].a = SORT;
+	fun[6].a = RESET;
+
+	fun[0].b = addContact;
+	fun[1].b = deletContact;
+	fun[2].b = searchContact;
+	fun[3].b = movContact;
+	fun[4].b = showAllContact;
+	fun[5].b = sortContact;
+	fun[6].b = resetContact;
+
+	Contact allIt;//创建空间
+	initContact(&allIt);
+	int opNum;//操作数定义
+	while (1)
+	{
+		menu();
+		scanf("%d", &opNum);
+		for (int i=0;i<6;i++)
+		{
+			if (opNum==i)
+			{
+				fun[opNum].b(&allIt);
+			}
+			if(opNum==7)
+			{
+				return 0;
+			}
+		}
+		
+	}
+
+	system("pause");
+	return 0;
+}
