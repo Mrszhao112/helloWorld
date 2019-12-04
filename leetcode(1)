@@ -1,0 +1,83 @@
+给定一个数组 nums 和一个值 val，你需要原地移除所有数值等于 val 的元素，返回移除后数组的新长度。
+不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
+int removeElement(int* nums, int numsSize, int val){
+    //k记录不等于val的个数
+    int k=0;
+    for (int i=0;i<numsSize;i++){
+        if (nums[i]!=val){
+            nums[k] = nums[i];
+            k++;
+        }
+    }
+    return k;//新的顺序表的长度
+}
+
+给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
+不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
+
+int removeDuplicates(int* nums, int numsSize)
+{
+    int np1 = 0, np2 = 0, dst = 0;
+	while (np2 < numsSize)
+	{
+		nums[dst++] = nums[np1];
+		while (nums[np1] == nums[np2])
+		{
+			np2++;
+            if(np2==numsSize)
+            {
+                break;
+            }
+		}
+		np1 = np2;
+	}
+	return dst;
+}
+
+给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
+说明:
+初始化 nums1 和 nums2 的元素数量分别为 m 和 n。
+你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
+
+void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n) 
+{
+    if (m==0)
+	{
+		for (int i=0;i<n;i++)
+		{
+			nums1[i] = nums2[i];
+		}
+	}
+	int end1 = m - 1;
+	int end2 = n - 1;
+	int dst = m+n-1;
+	while (end1>=0||end2>=0) //循环条件
+	{
+		if (end1>=0&&end2>=0)
+		{
+			if (nums1[end1] > nums2[end2])
+			{
+				nums1[dst] = nums1[end1];
+				end1--;
+				dst--;
+			}
+			else
+			{
+				nums1[dst] = nums2[end2];
+				end2--;
+				dst--;
+			}
+		}else if (end1 >= 0 && end2 < 0)
+		{
+			nums1[dst] = nums1[end1];
+			end1--;
+			dst--;
+		}else if (end2 >= 0 && end1 < 0)
+		{
+			nums1[dst] = nums2[end2];
+			end2--;
+			dst--;
+		}
+		
+	}
+}
