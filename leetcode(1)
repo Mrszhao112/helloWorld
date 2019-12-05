@@ -82,3 +82,24 @@ void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n)
 		
 	}
 }
+4.原地右旋数组
+void sortBack(int* arr, int left, int right)
+{
+	while (left < right)
+	{
+		int mid = 0;
+		mid = arr[left];
+		arr[left] = arr[right];
+		arr[right] = mid;
+		left++;
+		right--;
+	}
+}
+void rotate(int* nums, int numsSize, int k)
+{
+    k=k%numsSize;
+	sortBack(nums, 0, numsSize-k-1);
+	sortBack(nums, numsSize-k, numsSize-1);
+	sortBack(nums, 0, numsSize - 1);
+
+}
