@@ -1,0 +1,201 @@
+#pragma once
+#include<stdio.h>
+#include<stdlib.h>
+#include <string.h>
+#include <assert.h>
+//创建链表 
+//创建节点 确定链表存储数据 int 
+typedef int SListDataType;//存储的数据类型
+
+typedef struct SListNote
+{
+	SListDataType myData;//节点存储的数据
+	struct SListNote* pNext;//节点存储的地址 指向下一个节点  //虽然很已经typedy但是因为 
+}SListNote;//编译并未识别 因此仍需要进行 进行  struct SListNote* pNext;  不能使用 建议方法
+
+SListNote* BuySListNode(SListDataType x);//创建节点  初始化直接给第一个节点赋值
+void printSListNote(SListNote* allData);//打印节点
+void SListPushBack(SListNote** startList, SListDataType x);// 单链表尾插 
+void SListPushFront(SListNote** pplist,SListDataType x);//单链表头插
+void SListPopBack(SListNote** pplist);//单链表尾删
+void SListPopFront(SListNote** pplist);//单链表头删
+SListNote* SListFind(SListNote* plist, SListDataType x);// 单链表查找
+void SListInsertAfter(SListNote** pos, SListDataType x);//单链表插入
+void SListEraseAfter(SListNote* pos);//删除pos后的值
+void SListDestory(SListNote* plist);//销毁单链表
+
+#include "text2.h"
+SListNote* BuySListNode(SListDataType x)
+{
+	SListNote* newSListNote = (SListNote*)malloc(sizeof(SListNote));
+	newSListNote->myData = x;
+	newSListNote->pNext = NULL;
+	return newSListNote;//因为return 返回
+}
+void printSListNote(SListNote* allData)
+{
+	/*if (allData != NULL && allData->pNext == NULL)
+	{
+		printf("%d ", allData->myData);
+	}
+	else if (allData == NULL)
+	{
+		return;
+	}
+	else
+	{
+		while (allData->pNext != NULL)
+		{
+			printf("%d ", allData->myData);
+			allData = allData->pNext;
+		}
+	}*/
+	SListNote* cur = allData;
+	while (cur!=NULL)
+	{
+		printf("%d->",cur->myData);
+		cur = cur->pNext;
+	}
+	printf("null\n");
+}
+void SListPushBack(SListNote** newData, SListDataType x)
+{
+	SListNote* newSListNote = (SListNote*)malloc(sizeof(SListNote));
+	newSListNote->myData = x;
+	newSListNote->pNext = NULL;
+	SListNote* cur = *newData;
+	if (*newData==NULL)//若为空指针 则进行头指针的修改
+	{
+		*newData = newSListNote;
+	}
+	else
+	{
+		while (cur->pNext != NULL)
+		{
+			cur = cur->pNext;
+		}
+		cur->pNext = newSListNote;
+	}
+	//SListNote* newData =*startList;
+	//SListNote* newData = *a;
+	//SListNote* newSListNote = (SListNote*)malloc(sizeof(SListNote));//申请空间
+	//newSListNote->pNext = NULL;//产生新的null
+	//newSListNote->myData = x;
+	//if (newData == NULL)//判断当前节点是否为空  若为空 直接进行修改各项数值
+	//{
+	//	newData = newSListNote;
+	//}
+	//else//当前节点不为空
+	//{
+	//	while ((newData)->pNext != NULL)//循环找到末尾的null
+	//	{
+	//		newData = (newData)->pNext;
+	//	}
+	//	(newData)->pNext = newSListNote;//对null值进行修改
+	//	
+	//}
+
+}
+void SListPushFront(SListNote** pplist, SListDataType x)
+{
+	SListNote* newNote = (SListNote*)malloc(sizeof(SListNote));
+	newNote->myData = x;
+	newNote->pNext = *pplist;
+	*pplist = newNote;
+}
+void SListPopBack(SListNote** pplist)
+{
+	if (*pplist == NULL)
+	{
+		return;
+	}
+	else if ((*pplist)->pNext == NULL)
+	{
+		free(*pplist);
+		*pplist = NULL;
+	}
+	else {
+		SListNote* p1 = *pplist;
+		SListNote* p2 = (*pplist)->pNext;
+		while (p2->pNext!= NULL)
+		{
+			p1 = p1->pNext;
+			p2 = p2->pNext;
+		}
+		p1->pNext = NULL;
+		free(p2);
+	}
+}
+void SListPopFront(SListNote** pplist)
+{
+	if (*pplist == NULL)
+	{
+		return;
+	}
+	SListNote* cur = (*pplist)->pNext;
+	free(*pplist);
+	*pplist = cur;
+}
+SListNote* SListFind(SListNote* plist, SListDataType x)
+{
+	if (plist==NULL)
+	{
+		return NULL;
+	}
+	else
+	{
+		while (plist!=NULL)
+		{
+			//if (strcmp((char*)plist->myData,(char*)x)==0)
+			if (plist->myData==x)
+			{
+				return plist;
+			}
+			else
+			{
+				plist = plist->pNext;
+			}
+		}
+		return NULL;
+	}
+}
+void SListInsertAfter(SListNote** pos, SListDataType x)
+{
+	assert(*pos);
+	SListNote* newNote = (SListNote*)malloc(sizeof(SListNote));
+	newNote->myData = x;
+	newNote->pNext = (*pos)->pNext;
+	(*pos)->pNext = newNote;
+}
+void SListEraseAfter(SListNote* pos)
+{
+	assert(pos);
+
+}
+void SListDestory(SListNote** plist)
+{
+}
+
+int main()
+{
+	//SListNote* newSListNote = (SListNote*)malloc(sizeof(SListNote));
+	//newSListNote->myData = 1;
+	//newSListNote->pNext = NULL;
+	SListNote* newSListNote = BuySListNode(1);
+	SListPushBack(&newSListNote, 2);
+	SListPushBack(&newSListNote, 3);
+	SListPushBack(&newSListNote, 4);
+	printSListNote(newSListNote);
+	SListPushFront(&newSListNote, 0);
+	printSListNote(newSListNote);
+	SListPopBack(&newSListNote);
+	printSListNote(newSListNote);
+	SListPopFront(&newSListNote);
+	printSListNote(newSListNote);
+	SListNote* cur = SListFind(newSListNote, 2);
+	SListInsertAfter(&cur, 9);
+	printSListNote(cur);
+	printSListNote(newSListNote);
+	system("pause");
+	return 0;
+}
