@@ -34,22 +34,6 @@ SListNote* BuySListNode(SListDataType x)
 }
 void printSListNote(SListNote* allData)
 {
-	/*if (allData != NULL && allData->pNext == NULL)
-	{
-		printf("%d ", allData->myData);
-	}
-	else if (allData == NULL)
-	{
-		return;
-	}
-	else
-	{
-		while (allData->pNext != NULL)
-		{
-			printf("%d ", allData->myData);
-			allData = allData->pNext;
-		}
-	}*/
 	SListNote* cur = allData;
 	while (cur!=NULL)
 	{
