@@ -22,7 +22,7 @@ void SListPopFront(SListNote** pplist);//单链表头删
 SListNote* SListFind(SListNote* plist, SListDataType x);// 单链表查找
 void SListInsertAfter(SListNote** pos, SListDataType x);//单链表插入
 void SListEraseAfter(SListNote* pos);//删除pos后的值
-void SListDestory(SListNote* plist);//销毁单链表
+void SListDestory(SListNote** plist);//销毁单链表
 
 #include "text2.h"
 SListNote* BuySListNode(SListDataType x)
@@ -167,13 +167,49 @@ void SListInsertAfter(SListNote** pos, SListDataType x)
 	newNote->pNext = (*pos)->pNext;
 	(*pos)->pNext = newNote;
 }
-void SListEraseAfter(SListNote* pos)
+void SListEraseAfter(SListNote* pos)//删除pos之后的节点
 {
-	assert(pos);
+	if (pos==NULL||pos->pNext==NULL)//处理空指针以及没有后续指针的情况
+	{
+		return;
+	}
 
+	SListNote* cur = pos;	
+	pos = pos->pNext;
+
+	if (pos->pNext==NULL) //只有一个后续的节点 直接进行free 
+	{
+		free(pos);
+		
+	}
+
+	cur->pNext = NULL;//将之前pos的pnext置为null
+
+	while (pos->pNext!=NULL)  //多个节点 进入循环
+	{
+		cur = pos->pNext;
+		free(pos);
+		pos = cur;
+	}
+
+	free(pos);//free最后一个pos
 }
-void SListDestory(SListNote** plist)
+void SListDestory(SListNote** pplist)//此处防有野指针
 {
+	SListNote* cur = NULL;
+
+	while ((*pplist)->pNext != NULL)
+	{
+		cur = (*pplist)->pNext;
+		free((*pplist));
+		(*pplist) = cur;
+	}
+
+	if (*pplist!=NULL)
+	{
+		free(*pplist);
+		*pplist = NULL;
+	}
 }
 
 int main()
@@ -185,6 +221,8 @@ int main()
 	SListPushBack(&newSListNote, 2);
 	SListPushBack(&newSListNote, 3);
 	SListPushBack(&newSListNote, 4);
+
+	/*SListPushBack(&newSListNote, 4);
 	printSListNote(newSListNote);
 	SListPushFront(&newSListNote, 0);
 	printSListNote(newSListNote);
@@ -192,9 +230,15 @@ int main()
 	printSListNote(newSListNote);
 	SListPopFront(&newSListNote);
 	printSListNote(newSListNote);
-	SListNote* cur = SListFind(newSListNote, 2);
+	
 	SListInsertAfter(&cur, 9);
 	printSListNote(cur);
+	*/	
+	printSListNote(newSListNote);
+	SListNote* cur = SListFind(newSListNote, 8);
+	SListEraseAfter(cur);
+	
+	//SListDestory(&newSListNote);
 	printSListNote(newSListNote);
 	system("pause");
 	return 0;
