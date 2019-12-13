@@ -100,9 +100,9 @@ void ListPushBack(ListNode* plist, LTDataType x)
 // 双向链表尾删
 void ListPopBack(ListNode* plist)
 {
-	/*if (plist->next = plist)
+	/*if (plist->next == plist)
 	{
-		printf("链表已经删除为空\n");                                       ///////////////////////
+		printf("链表已经删除为空\n");                                   
 		return;
 	}*/
 	
