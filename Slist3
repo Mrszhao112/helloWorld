@@ -22,21 +22,10 @@ void StackInit(Stack* ps)
 }
 //入栈
 
-//两种方法第一种方法会造成内存泄漏
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void StackPush(Stack* ps, STDataType x)//因为只有一种方式 因此没有尾插
 {
 	if (ps->Top == ps->Capacity)
 	{//扩容
-		//if (ps->Capacity == 0)
-		//{
-		//	ps->a = (STDataType*)malloc(sizeof(STDataType) * 4);//初始成四个字节
-
-		//}
-		//else
-		//{
-		//	ps->a = (STDataType*)realloc(ps->a, sizeof(STDataType)*(ps->Capacity * 2));//栈元素已满自动增加
-		//}
 		size_t newcapacity = ps->Capacity == 0 ? 4 : ps->Capacity * 2;
 		ps->a = (STDataType*)realloc(ps->a, newcapacity * sizeof(STDataType));
 		ps->Capacity = newcapacity;
