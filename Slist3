@@ -1,0 +1,115 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
+//调用一次 包的一个头文件
+
+typedef int STDataType;
+typedef struct Stack
+{
+	STDataType* a;//动态创建数组
+	int Top;		//栈顶
+	int Capacity;	//容量
+}Stack;
+
+
+
+//初始化栈
+void StackInit(Stack* ps)
+{
+	ps->a = NULL;
+	ps->Top = 0;
+	ps->Capacity = 0;
+}
+//入栈
+
+//两种方法第一种方法会造成内存泄漏
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void StackPush(Stack* ps, STDataType x)//因为只有一种方式 因此没有尾插
+{
+	if (ps->Top == ps->Capacity)
+	{//扩容
+		//if (ps->Capacity == 0)
+		//{
+		//	ps->a = (STDataType*)malloc(sizeof(STDataType) * 4);//初始成四个字节
+
+		//}
+		//else
+		//{
+		//	ps->a = (STDataType*)realloc(ps->a, sizeof(STDataType)*(ps->Capacity * 2));//栈元素已满自动增加
+		//}
+		size_t newcapacity = ps->Capacity == 0 ? 4 : ps->Capacity * 2;
+		ps->a = (STDataType*)realloc(ps->a, newcapacity * sizeof(STDataType));
+		ps->Capacity = newcapacity;
+	}
+
+	ps->a[ps->Top] = x;
+	ps->Top++;
+	
+}
+//出栈
+void StackPop(Stack* ps)
+{
+	assert(ps->Top > 0);  //确保有栈内数据可以删除
+	--ps->Top;
+}
+//获取栈顶元素
+STDataType StackTop(Stack* ps)
+{
+	return ps->a[ps->Top-1];//top是最后一个数据的上一个
+}
+
+//获取栈中有效元素的个数
+int StackSize(Stack* ps)
+{
+	return ps->Top;
+}
+//检测栈是否为空 若为空 1  不为空返回零
+int StackEmpty(Stack* ps)
+{
+	if (ps->Top==0)
+	{
+		return 1;//为空
+	} 
+
+	return 0;//不为空
+}
+
+//销毁栈 
+void StackDestory(Stack* ps)
+{
+	free(ps->a);
+	ps->a = NULL;
+	ps->Top = 0;
+	ps->Capacity = 0;
+}
+
+void StackExample()
+{
+	Stack st;
+	StackInit(&st);
+	StackPush(&st, 1);
+	StackPush(&st, 2);
+	printf("%d\n", StackTop(&st));
+	StackPop(&st);
+	StackPush(&st, 3);
+	printf("%d\n", StackTop(&st));
+	StackPop(&st);
+	StackPush(&st, 4);
+
+	//取数据只能取栈顶数据 
+	//访问栈只能通过接口进行访问
+
+	while (StackEmpty(&st)!=1)
+	{
+		printf("%d\n",StackTop(&st));
+		StackPop(&st);
+	}
+
+}
+
+int main()
+{
+	StackExample();
+	system("pause");
+	return 0;
+}
