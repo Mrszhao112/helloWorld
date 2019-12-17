@@ -1,0 +1,128 @@
+//记录leetcode刷题时遇到的一些特别的题目 
+
+1.删除链表中等于给定值 val 的所有节点。 
+2.反转一个单链表。 
+3.给定一个带有头结点 head 的非空单链表，返回链表的中间结点。如果有两个中间结点，则返回第二个中间结点。
+
+
+1./**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+typedef struct ListNode ListNode;
+//创建新链表 将不为value的值存储下来释放掉原来链表！
+struct ListNode* removeElements(struct ListNode* head, int val)
+{
+    if(head==NULL)
+    {
+        return NULL;
+    }
+    ListNode* newHead=(ListNode*)malloc(sizeof(ListNode));//创建新链表头节点
+    newHead->next=NULL;
+    ListNode* ret=newHead;
+    ListNode* cur=head;//保存head
+    while(cur!=NULL)
+    {
+        if(cur->val!=val)
+        {
+        ListNode* newList=(ListNode*)malloc(sizeof(ListNode));
+        newList->val=cur->val;
+        newList->next=NULL;
+        newHead->next=newList;
+        newHead=newList;
+        cur=cur->next;
+        }
+        else
+        {
+        cur=cur->next;
+        }
+    }
+    //保存结束 删除原来链表
+    ListNode* DestoryNode=head;
+    while(head!=NULL)
+    {
+        head=head->next;
+        free(DestoryNode);
+        DestoryNode=head;
+    }
+    free(head);
+    newHead=ret->next;
+    free(ret);
+    return newHead;
+
+}
+//使用额外的空间变相的进行删除
+
+
+2.
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+typedef struct ListNode ListNode;
+
+struct ListNode* reverseList(struct ListNode* head){
+    //方法二 直接改变指针的指向
+    if(head==NULL||head->next==NULL)
+    {
+        return head;
+    }
+    ListNode* lastNode=NULL;
+    ListNode* curNode=head;
+    ListNode* nextNode=head->next;
+    while(1)
+    {
+        curNode->next=lastNode;//改变链接顺序
+
+        lastNode=curNode;
+        curNode=nextNode;
+
+        if(nextNode==NULL)
+        {
+            break;
+        }
+
+        nextNode=nextNode->next;//指针均向后移动
+        
+    }
+    free(curNode);
+    free(nextNode);
+    return lastNode;
+}
+
+
+3.
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+typedef struct ListNode ListNode;
+struct ListNode* middleNode(struct ListNode* head){
+    if(head==NULL||head->next==NULL)
+    {
+        return head;
+    }
+
+    ListNode* slow=head->next;
+    ListNode* fast=head->next->next;
+    while(fast!=NULL&&fast->next!=NULL)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+   // free(fast);  不能这项去释放因为fast现在指向的是有效数据！
+    return slow;
+}
+
