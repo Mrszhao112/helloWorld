@@ -4,6 +4,7 @@
 2.反转一个单链表。 
 3.给定一个带有头结点 head 的非空单链表，返回链表的中间结点。如果有两个中间结点，则返回第二个中间结点。
 4.输入一个链表，输出该链表中倒数第k个结点。
+5.给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
 
 1./**
  * Definition for singly-linked list.
@@ -175,3 +176,45 @@ public:
         return slow;
     }
 };
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+ typedef struct ListNode ListNode;
+struct ListNode *detectCycle(struct ListNode *head) 
+{
+    //首先判断是否有环并找到相遇点 利用快慢指针
+    if(head==NULL||head->next==NULL)
+        return NULL;
+        
+    ListNode* fast=head->next->next;
+    ListNode* slow=head->next;
+    while(1)
+    {
+        if(fast==NULL||fast->next==NULL)
+            return NULL;
+
+        if(fast==slow)
+            break;
+
+        fast=fast->next->next;
+        slow=slow->next;
+    }
+    //已经得到相遇节点
+    while(1)
+    {
+        if(head==slow)
+        {
+            return head;
+        }
+        
+        slow=slow->next;
+        head=head->next;
+    }
+    
+    
+}
