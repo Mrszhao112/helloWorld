@@ -101,5 +101,5 @@ void rotate(int* nums, int numsSize, int k)
 	sortBack(nums, 0, numsSize-k-1);
 	sortBack(nums, numsSize-k, numsSize-1);
 	sortBack(nums, 0, numsSize - 1);
-
 }
+//okay
