@@ -102,4 +102,19 @@ void rotate(int* nums, int numsSize, int k)
 	sortBack(nums, numsSize-k, numsSize-1);
 	sortBack(nums, 0, numsSize - 1);
 }
+
+5.给定前序求中序
+c++递归，简单清晰
+class Solution {
+public:
+    vector<int> res;
+    vector<int> inorderTraversal(TreeNode* root) {
+        if(root){
+            inorderTraversal(root->left);
+            res.push_back(root->val);
+            inorderTraversal(root->right);
+        }
+        return res;
+    }
+};
 //okay
