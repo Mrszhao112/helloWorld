@@ -117,4 +117,33 @@ public:
         return res;
     }
 };
+6.leetcode 求二叉树深度
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        //深度优先遍历（DFS
+        if(root==NULL){
+            return 0;
+        }
+        else{
+            int depthl=maxDepth(root->left);
+            int depthr=maxDepth(root->right);
+            if(depthl>depthr)
+                return depthl+1;
+            else
+                return depthr+1;
+        }
+    }
+};
+
+
 //okay
