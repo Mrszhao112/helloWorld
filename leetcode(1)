@@ -104,7 +104,7 @@ void rotate(int* nums, int numsSize, int k)
 }
 
 5.给定前序求中序
-c++递归，简单清晰
+//c++递归，简单清晰
 class Solution {
 public:
     vector<int> res;
@@ -118,19 +118,10 @@ public:
     }
 };
 6.leetcode 求二叉树深度
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
 class Solution {
 public:
-    int maxDepth(TreeNode* root) {
-        //深度优先遍历（DFS
+    int maxDepth(TreeNode* root) {//简单递归即可求得深度 可以通过深度优先搜索或者广度优先搜索
+        //深度优先遍历（DFS          //进行遍历时防止爆栈
         if(root==NULL){
             return 0;
         }
@@ -141,9 +132,9 @@ public:
                 return depthl+1;
             else
                 return depthr+1;
+
         }
     }
 };
-
 
 //okay
