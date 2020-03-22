@@ -5,7 +5,7 @@
 3.给定一个带有头结点 head 的非空单链表，返回链表的中间结点。如果有两个中间结点，则返回第二个中间结点。
 4.输入一个链表，输出该链表中倒数第k个结点。
 5.给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
-
+6.判断一个二叉树是不是另一个二叉树的子数。
 1./**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -580,4 +580,30 @@ void myStackFree(MyStack* obj) {
     QueueDestroy(&obj->q1);
     QueueDestroy(&obj->q2);
     free(obj);
+}
+6./**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+bool compare(struct TreeNode* root1,struct TreeNode* root2)
+{
+    if(root1 == NULL && root2 == NULL)
+        return true;
+    if(root1 == NULL || root2 == NULL)
+        return false;
+    if(root1->val != root2->val)
+        return false;
+    return compare(root1->left,root2->left) && compare(root1->right,root2->right);  //递归比较左右  
+}
+
+bool isSubtree(struct TreeNode* s, struct TreeNode* t)
+{
+     if(s == NULL && t != NULL)   //s已经到底
+         return false;
+    return compare(s,t) || isSubtree(s->left,t) || isSubtree(s->right,t);  //判 根  左  右
 }
