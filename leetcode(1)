@@ -137,16 +137,15 @@ public:
     }
 };
 7.平衡二叉树  这道题结合了二叉树高度进行求解
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-class Solution {
+//平衡二叉树是左右子树高度差不超过一的二叉树
+//那么就可以求左右子树高度 如果高度差超过1那么就说明不是
+//我们就可以加一个变量进行求解
+   struct TreeNode {
+   int val;
+   TreeNode *left;
+   TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ };lass Solution {
 public:
     int f=0;
     int dfs(TreeNode* root){
@@ -162,6 +161,4 @@ public:
         else return true;
     }
 };
-
-
 //okay
