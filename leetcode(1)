@@ -435,5 +435,60 @@ int main(){
 	return 0;
 }
 
+12 牛客网 二叉树层序遍历
+二叉树层序遍历，按层存储
+
+给定二叉树的根结点root，请返回打印结果，
+结果按照每一层一个数组进行储存，
+所有数组的顺序按照层数从上往下，
+且每一层的数组内元素按照从左往右排列。
+保证结点数小于等于500。
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};*/
+
+class TreePrinter {
+public:
+    vector<vector<int> > printTree(TreeNode* root) {
+        int head=-1,tail=-1;	//队头队尾
+        TreeNode *q[505],*now;
+        map<int,int> dep;		//存储每个结点的高度
+        
+        if(root==NULL)
+            return ans;
+        q[++tail]=root;
+        dep[root->val]=0;
+        while(head!=tail){
+            now=q[++head];
+            if(now->left){
+                q[++tail]=now->left;
+                dep[now->left->val]=dep[now->val]+1;		//左孩子的高度为父节点加1
+            }
+            if(now->right){
+                q[++tail]=now->right;
+                dep[now->right->val]=dep[now->val]+1;		//右孩子的高度为父节点加1
+            }
+        }
+        vector<vector<int> > ans;
+        for(int j,i=0;i<=tail;i=j){
+            j=i;
+            vector<int> temp;
+            while(j<=tail&&dep[q[j]->val]==dep[q[i]->val]){		//如果q[j]和q[i]在同一层，遍历完在同一层的结点
+                temp.push_back(q[j]->val);
+                ++j;           
+            }
+            ans.push_back(temp);
+        }
+        return ans;
+    }
+};
+
+
 
 //okay
