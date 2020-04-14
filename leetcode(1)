@@ -608,6 +608,53 @@ int** levelOrderBottom(struct TreeNode* root, int* returnSize, int** returnColum
     return arrays;
 }
 
+257 leetcode求二叉树所有路径
+Public
+    vector<string> vec;
+    string path;
+    vector<string> binaryTreePaths(TreeNode* root) {
+        if(!root)
+        {
+            return vec;
+        }
+        if(!root->left && !root->right)
+        {
+            path += to_string(root->val);
+            vec.push_back(path);
+            return vec;
+        }
+        path += to_string(root->val) +"->";
+        string path2 = path;
+        binaryTreePaths(root->left);
+        path = path2;
+        binaryTreePaths(root->right);
+        path = path2;
+        return vec;
+    }
+};
+
+404 leetcode 左叶子树的和
+class Solution {
+public:
+    double sum = 0;
+    int sumOfLeftLeaves(TreeNode* root) {
+        dfs(root,2);
+        return sum;
+    }
+    void dfs(TreeNode *p, int flag) {
+        if (p == NULL)
+            return;
+        if (p->left == NULL && p->right == NULL && flag == 0) {
+            sum += p->val;
+            return;
+        }
+        if (p->left != NULL)
+            dfs(p->left, 0);
+        if (p->right != NULL)
+            dfs(p->right, 1);
+    }
+};
+
 
 
 //okay
