@@ -733,6 +733,67 @@ int maxDepth(Node* root) {
     return max_depth;
 }
 
+二叉树层序遍历 leetcode102
+思路1使用flag分离  
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        if(!root)   return ans;
+        queue<TreeNode*> q;
+        TreeNode* ptr = root;
+        TreeNode* flag = new TreeNode(-1);
+        int lvl = 0, ele = 0;
+        q.push(root);
+        q.push(flag);
+        vector<int> row;
+        while(!q.empty()){
+            if(q.front() == flag){
+                ans.push_back(row);
+                row.clear();
+                q.pop();
+                q.push(flag);
+                continue;
+            }
+            TreeNode* temp = q.front();
+            q.pop();
+            row.push_back(temp -> val);
+            if(temp -> left)    q.push(temp -> left);
+            if(temp -> right)   q.push(temp -> right);
+            if(q.size() == 1){
+                ans.push_back(row);
+                break;
+            }
+        }
+        return ans;
+    }
+};
+思路2双层循环
+
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        if(!root)   return ans;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()){
+            int count = q.size();
+            vector<int> row;
+            while(count--){
+                TreeNode* temp = q.front();
+                q.pop();
+                row.push_back(temp -> val);
+                if(temp -> left)    q.push(temp -> left);
+                if(temp -> right)   q.push(temp -> right);    
+            }
+            ans.push_back(row);
+        }
+        return ans;
+    }
+};
+
+
 
 
 //okay
