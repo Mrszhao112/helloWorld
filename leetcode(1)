@@ -812,6 +812,30 @@ public:
 };
 
 
+leetcode 559 
+求n叉树的最大深度
+/*  这是n叉数的结构
+ * Definition for a Node.
+ * struct Node {
+ *     int val;
+ *     int numChildren;
+ *     struct Node** children;
+ * };
+ */
+void dfs(struct Node* root,int level,int* result)
+{
+    if(root==0)
+        return;
+    *result=*result>level?*result:level;
+    for(int i=0;i<root->numChildren;++i)
+        dfs(root->children[i],level+1,result);
+}
+
+int* maxDepth(struct Node* root) {
+    int result=0;
+    dfs(root,1,&result);
+    return result;
+}
 
 
 //okay
