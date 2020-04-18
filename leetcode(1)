@@ -790,5 +790,28 @@ public:
 
 
 
+leetcode 437 
+给定一个数 求复合路径和为给定数字的所有路径总数 
+这道题采用了一个双递归
+一个搜索当前节点 
+一个向下递归
+
+class Solution {
+public:
+搜索当前
+    int helper(TreeNode* root, int sum) {
+        if (root== NULL) return 0;
+        sum -= root->val;
+        return (sum==0?1:0) + helper(root->left, sum) + helper(root->right, sum);
+    }
+向下递归
+    int pathSum(TreeNode* root, int sum) {
+        if (root == NULL) return 0;
+        return helper(root, sum)+pathSum(root->left, sum)+pathSum(root->right, sum);
+    }
+};
+
+
+
 
 //okay
