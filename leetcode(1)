@@ -165,14 +165,9 @@ public:
     }
 };
 8.二叉树层次遍历并输出
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     struct TreeNode *left;
- *     struct TreeNode *right;
- * };
- */
+这道题 用c语言解得很巧 巧在初始化二维数组列的时候很省空间 
+采用多少数据开多大空间  因为看到有些解法直接盲目开辟300列 浪费资源
+所以对比明显
 
 typedef struct Queue {
     int front;
@@ -698,8 +693,8 @@ int diameterOfBinaryTree(struct TreeNode* root){
 
 
  求二叉树深度
-
 这种方式采用迭代的方式 
+
 int maxDepth(Node* root) {
     if (!root) return 0;
     stack<pair<Node*,int>>stack;
