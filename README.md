@@ -1,3 +1,4 @@
 # helloWorld
 Just another repository
-//该仓库存储一些实用性代码 提升自己代码能力 以及交流
+//该仓库用于存储自己初学it时所刷的一个题目或遇到的知识点
+//hello world
